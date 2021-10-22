@@ -1,0 +1,74 @@
+{
+  "name": "profiles",
+  "version": "1.0.0",
+  "description": "User profiles management system",
+  "main": "./src/index.js",
+  "repository": "https://github.com/blaisebakundukize/profiles.git",
+  "author": "Blaise Bakundukize <blaisebakundukize@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=12.x.x"
+  },
+  "scripts": {
+    "start": "yarn prod",
+    "build": "npm-run-all clean transpile",
+    "server": "babel-node dist/server.js",
+    "server:prod": "node dist/server.js",
+    "dev": "NODE_ENV=development npm-run-all build server",
+    "prod": "NODE_ENV=production npm-run-all build server:prod",
+    "transpile": "babel ./src --out-dir dist",
+    "clean": "rimraf dist",
+    "watch:dev": "nodemon",
+    "test": "jest",
+    "lint": "eslint 'src/**/*.js?(x)'",
+    "prettier:write": "prettier --write 'src/**/*.js'",
+    "sexy:code": "yarn lint && yarn prettier:write"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/node": "^7.15.8",
+    "@babel/plugin-transform-runtime": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/register": "^7.15.3",
+    "@babel/runtime": "^7.15.4",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.14",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^27.3.1",
+    "prettier": "^2.4.1"
+  },
+  "nodemonConfig": {
+    "exec": "yarn run dev",
+    "watch": [
+      "src/*"
+    ],
+    "ignore": [
+      "**/__tests__/**",
+      "*.test.js",
+      "*.spec.js",
+      "**__mocks__/**"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "plugins": [
+      "@babel/transform-runtime"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
