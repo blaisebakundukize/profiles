@@ -1,6 +1,4 @@
-export class UserController {
-
-}
+export class UserController {}
 
 const userController = new UserController();
 

@@ -6,5 +6,8 @@ import { app } from '.';
 
   const server = http.createServer(app);
 
-  server.listen(port, () => console.info(`⚡️ Server is running at http://localhost:${port}`));
+  server.listen(port, () =>
+    // eslint-disable-next-line no-console
+    console.info(`⚡️ Server is running at http://localhost:${port}`)
+  );
 })();

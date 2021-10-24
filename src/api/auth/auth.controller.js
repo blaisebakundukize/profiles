@@ -1,6 +1,4 @@
-export class AuthController {
-
-}
+export class AuthController {}
 
 const authController = new AuthController();
 
