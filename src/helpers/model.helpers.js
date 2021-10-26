@@ -10,7 +10,3 @@ export function cryptPassword(password, callback) {
     return null;
   });
 }
-
-export function validatePassword(password) {
-  return bcrypt.compare(password, this.password);
-}

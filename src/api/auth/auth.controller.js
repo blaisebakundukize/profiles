@@ -40,6 +40,26 @@ export class AuthController {
       });
     }
   };
+
+  login = async (req, res) => {
+    try {
+      const { username, password } = req.body;
+
+      const user = await User.findOne({ where: { username } });
+
+      if (!user || !comparePassword(user.password, password)) {
+        return res
+          .status(STATUS_CODES.UNAUTHORIZED)
+          .json({ error: 'Invalid email or password' });
+      }
+
+      return res.json({ ...user.toJSON() });
+    } catch (error) {
+      return res
+        .status(STATUS_CODES.UNAUTHORIZED)
+        .json({ error: 'Could not sign in' });
+    }
+  };
 }
 
 const authController = new AuthController();
