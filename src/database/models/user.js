@@ -1,3 +1,6 @@
+import { generateAccessToken } from '../../helpers/auth.helpers';
+import { cryptPassword } from '../../helpers/model.helpers';
+
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
@@ -15,7 +18,17 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       });
     }
+
+    toJSON() {
+      const user = { ...this.get() };
+      delete user.password;
+      return {
+        user,
+        token: generateAccessToken(user.id),
+      };
+    }
   }
+
   User.init(
     {
       username: {
@@ -28,9 +41,24 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
+      hooks: {
+        beforeCreate: (user, options) =>
+          new Promise((resolve, reject) => {
+            if (user.isNewRecord) {
+              cryptPassword(user.password, (error, hashedPassword) => {
+                if (error) return reject(error);
+                // eslint-disable-next-line no-param-reassign
+                user.password = hashedPassword;
+
+                return resolve(user, options);
+              });
+            }
+          }),
+      },
       sequelize,
       modelName: 'User',
     }
   );
+
   return User;
 };

@@ -9,6 +9,8 @@ module.exports = {
     database: process.env.DEV_DATABASE,
     host: process.env.DEV_HOST,
     dialect: 'postgres',
+    secretKey: process.env.SECRET_KEY || '',
+    apiPrefix: process.env.API_PREFIX || '/api/v1',
   },
   test: {},
   production: {},
