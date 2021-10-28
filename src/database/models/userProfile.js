@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
+
   UserProfile.init(
     {
       names: {

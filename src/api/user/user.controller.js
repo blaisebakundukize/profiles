@@ -45,10 +45,19 @@ export class UserController {
         UserProfile
       );
 
-      const profiles = await UserProfile.findAll({
+      let profiles = await UserProfile.findAll({
         limit,
         offset,
+        raw: true,
       });
+
+      if (Array.isArray(profiles) && profiles.length) {
+        profiles = profiles.map((profile) => ({
+          ...profile,
+          errors: JSON.parse(profile.errors),
+        }));
+      }
+
       // console.log(await UserProfile.count());
       return res.json({
         data: profiles,
