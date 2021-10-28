@@ -1,11 +1,20 @@
+import passport from 'passport';
 import models from '../../database/models';
 
 import { STATUS_CODES } from '../../constants';
-import { comparePassword } from '../../helpers/auth.helpers';
 
 const { User } = models;
 
 export class AuthController {
+  login = async (req, res, next) =>
+    passport.authenticate('local', { session: false }, (err, user) => {
+      if (user) {
+        return res.json(user.toJSON());
+      }
+
+      return res.status(STATUS_CODES.UNAUTHORIZED).json({ error: err });
+    })(req, res, next);
+
   register = async (req, res) => {
     try {
       // The new user body can be validated by a middleware.
@@ -38,26 +47,6 @@ export class AuthController {
       return res.status(STATUS_CODES.SERVER_ERROR).json({
         error: 'Could not complete registration due to internal server error',
       });
-    }
-  };
-
-  login = async (req, res) => {
-    try {
-      const { username, password } = req.body;
-
-      const user = await User.findOne({ where: { username } });
-
-      if (!user || !comparePassword(user.password, password)) {
-        return res
-          .status(STATUS_CODES.UNAUTHORIZED)
-          .json({ error: 'Invalid email or password' });
-      }
-
-      return res.json({ ...user.toJSON() });
-    } catch (error) {
-      return res
-        .status(STATUS_CODES.UNAUTHORIZED)
-        .json({ error: 'Could not sign in' });
     }
   };
 }
