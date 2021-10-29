@@ -51,7 +51,9 @@
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
     "rimraf": "^3.0.2",
-    "sequelize": "^6.7.0"
+    "sequelize": "^6.7.0",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",

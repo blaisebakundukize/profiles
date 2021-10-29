@@ -14,6 +14,7 @@ export const localStrategy = new LocalStrategy.Strategy(
   },
   async (username, password, next) => {
     const error = 'Invalid username or password';
+    console.log(username.password);
     try {
       const user = await User.findOne({ where: { username } });
 

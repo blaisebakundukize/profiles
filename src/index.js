@@ -2,10 +2,12 @@ import express from 'express';
 import logger from 'morgan';
 import cors from 'cors';
 import passport from 'passport';
+import swaggerUI from 'swagger-ui-express';
 
 import { v1Router } from './api/router';
 import { environment } from './helpers/environment.helpers';
 import { requireToken } from './middleware/auth.middleware';
+import swaggerSpec from './config/swaggerSpec';
 
 import './middleware/passport-strategies.middleware';
 
@@ -19,6 +21,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(passport.initialize());
+
+app.use(
+  `${environment.apiPrefix}/docs`,
+  swaggerUI.serve,
+  swaggerUI.setup(swaggerSpec)
+);
 
 app.all(`${environment.apiPrefix}/*`, requireToken(), (err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {
