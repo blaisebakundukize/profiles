@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { pipeline } from 'stream';
+import { promisify } from 'util';
 
 import { PushToDB } from '../../helpers/user.helpers';
 import { STATUS_CODES } from '../../constants';
@@ -7,6 +8,7 @@ import models from '../../database/models';
 import { getPagination } from '../../helpers';
 
 const { UserProfile } = models;
+const unlinkAsync = promisify(fs.unlink);
 
 export class UserController {
   // eslint-disable-next-line consistent-return
@@ -18,15 +20,16 @@ export class UserController {
           .json({ error: 'Please upload a CSV file!' });
       }
 
-      const path = `${__dirname}/../../../resources/static/assets/uploads/${req.file.filename}`;
-
-      const readable = fs.createReadStream(path);
-      pipeline(readable, new PushToDB(), (err) => {
+      const readable = fs.createReadStream(req.file.path);
+      pipeline(readable, new PushToDB(), async (err) => {
         if (err) {
           return res.status(STATUS_CODES.BAD_REQUEST).json({
             error: 'An error occurred while transforming the CSV file.',
           });
         }
+
+        await unlinkAsync(req.file.path);
+
         return res.status(STATUS_CODES.CREATED).json({
           message: 'CSV file uploaded successfully',
         });

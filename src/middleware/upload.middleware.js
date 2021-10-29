@@ -1,5 +1,6 @@
 import multer from 'multer';
 import path from 'path';
+import fs from 'fs';
 
 const csvFilter = (req, file, cb) => {
   if (file.mimetype.includes('csv')) {
@@ -11,10 +12,11 @@ const csvFilter = (req, file, cb) => {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(
-      null,
-      path.normalize(`${__dirname}/../../resources/static/assets/uploads/`)
+    const filePath = path.normalize(
+      `${__dirname}/../../resources/static/assets/uploads/`
     );
+    fs.mkdirSync(filePath, { recursive: true });
+    cb(null, filePath);
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-csvUsers-${file.originalname}`);
