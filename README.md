@@ -31,6 +31,8 @@ An API that allows users to upload a csv file of users' profiles. The CSV file c
 3. Use the button (Authorize) to Paste token
 4. Try out endpoints for uploading CSV file and fetching profiles
 
+![](resources/static/assets/images/swagger-rssb.png)
+
 ## Endpoints
 
 ### Register:
