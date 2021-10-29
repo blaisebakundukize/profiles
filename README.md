@@ -18,6 +18,19 @@ An API that allows users to upload a csv file of users' profiles. The CSV file c
 6. Run `yarn run migration` to create tables in Database
 7. Run `yarn/npm run watch:dev` it will start the project on a default port (5000)
 
+## Swagger JSDOC
+
+> You can test the following endpoints though the browser.
+
+- `http://localhost:5000/api/v1/docs/`
+
+> Process
+
+1. Login by trying out the body for login
+2. Copy token
+3. Use the button (Authorize) to Paste token
+4. Try out endpoints for uploading CSV file and fetching profiles
+
 ## Endpoints
 
 ### Register:
